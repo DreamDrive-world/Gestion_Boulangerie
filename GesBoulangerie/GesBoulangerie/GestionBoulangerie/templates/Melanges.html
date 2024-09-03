@@ -1,0 +1,95 @@
+
+{% extends 'home.html' %}
+
+{% comment %}  
+HYOFANG LUY MARSHALL
+ DJOMATCHOUA WAMENI Ange Manuela
+ 
+ DJEUMO LEUNA Jemima {% endcomment %}
+
+
+
+{% block content %}
+  <div class="container-client">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active fs-8 fw-bold font-family-sans-serif text-uppercase" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">Creation Melange</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fs-8 fw-bold font-family-sans-serif text-uppercase" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">Liste des Melanges</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+        <h2 class="alert alert-warning text-center m-3">BIENVENUE SUR VOTRE APPLICATION GESBOULANGERIE</h2>
+        <div class="corps mt-3">
+          {% for message in messages %}
+            <p class="alert alert-success mt-3">{{ message }}</p>
+          {% endfor %}
+
+          {% if melange %}
+            <form method="post" action="{% url 'update_melange' melange.id_melange %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col">
+                  <div class="mb-4">
+                    <label for="description" class="title">Description</label>
+                    <textarea class="form-control" id="description" name="description" cols="50" rows="8">{{ melange.description }}</textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">mettre a jour un melange</button>
+              </div>
+            </form>
+          {% else %}
+            <form method="post" action="{% url 'add_melange' %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col">
+                  <div class="mb-4">
+                    <label for="description" class="title">Description</label>
+                    <textarea class="form-control" id="description" name="description" cols="50" rows="8" placeholder="Entrez votre melange"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Creer un Melange</button>
+              </div>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+        <div class="corps mt-3">
+          <div class="mt-5">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">N.</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">EDIT</th>
+                  <th scope="col">DELETE</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in melange_liste %}
+                  <tr>
+                    <td>{{ i.id_melange }}</td>
+                    <td>{{ i.description }}</td>
+                    <td>
+                      <a href="{% url 'edit_melange' i.id_melange %}" class="btn btn-primary">modifier</a>
+                    </td>
+                    <td>
+                      <a href="{% url 'delete_melange' i.id_melange %}" class="btn btn-primary">supprimer</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

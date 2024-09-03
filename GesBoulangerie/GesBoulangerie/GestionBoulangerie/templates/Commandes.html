@@ -1,0 +1,148 @@
+
+
+{% extends 'home.html' %}
+{% comment %}  HYOFANG LUY MARSHALL
+ DJOMATCHOUA WAMENI Ange Manuela
+ 
+ DJEUMO LEUNA Jemima {% endcomment %}
+{% block content %}
+  <div class="container-client">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active fs-8 fw-bold font-family-sans-serif text-uppercase" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">Creation Des commandes</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fs-8 fw-bold font-family-sans-serif text-uppercase" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">Liste Commandes</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+        <div class="corps mt-3">
+          {% for message in messages %}
+            <p class="alert alert-success mt-3">{{ message }}</p>
+          {% endfor %}
+
+          {% if commande %}
+            <form method="post" action="{% url 'update_commande' commande.id %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-6">
+                  <label for="client" class="title">Sélectionnez le client</label>
+                  <select class="form-select" id="client" name="client" aria-label="Sélectionnez une option">
+                    {% for i in clients_liste %}
+                      <option value="{{ i.id_cli }}">{{ i.nom_cli }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-6">
+                  <div class="mb-4">
+                    <label for="pain" class="title">Sélectionnez un Pain</label>
+                    <select class="form-select" id="pain" name="pain" aria-label="Sélectionnez une option">
+                      {% for i in pain_liste %}
+                        <option value="{{ i.id_pain }}">{{ i.description }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="mb-4">
+                    <label for="quantite" class="title">Nombre de pains</label>
+                    <input type="number" id="quantite" name="quantite" class="form-control" required />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-4">
+                    <label for="date_livraison" class="title">Date de livraison</label>
+                    <input type="date" id="date_livraison" name="date_livraison" class="form-control" required />
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">mettre a jour un pain</button>
+              </div>
+            </form>
+          {% else %}
+            <form method="post" action="{% url 'add_commande' %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col-6">
+                  <label for="client" class="title">Sélectionnez le client</label>
+                  <select class="form-select" id="client" name="client" aria-label="Sélectionnez une option">
+                    {% for i in clients_liste %}
+                      <option value="{{ i.id_cli }}">{{ i.nom_cli }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-6">
+                  <div class="mb-4">
+                    <label for="pain" class="title">Sélectionnez un Pain</label>
+                    <select class="form-select" id="pain" name="pain" aria-label="Sélectionnez une option">
+                      {% for i in pain_liste %}
+                        <option value="{{ i.id_pain }}">{{ i.description }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="mb-4">
+                    <label for="quantite" class="title">Nombre de pains</label>
+                    <input type="number" id="quantite" name="quantite" class="form-control" required />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-4">
+                    <label for="date_livraison" class="title">Date de livraison</label>
+                    <input type="date" id="date_livraison" name="date_livraison" class="form-control" required />
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Creer une commande</button>
+              </div>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+        <div class="corps mt-3">
+          <div class="mt-5">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">N.</th>
+                  <th scope="col">CLIENTS</th>
+                  <th scope="col">PAINS</th>
+                  <th scope="col">QUANTITES</th>
+                  <th scope="col">DATE DE LIVRAISON</th>
+                  {% comment %} <th scope="col">EDIT</th> {% endcomment %}
+                  <th scope="col">DELETE</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in commande_liste %}
+                  <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.client_id }}</td>
+                    <td>{{ i.pain_id }}</td>
+                    <td>{{ i.nombre_pains }}</td>
+                    <td>{{ i.date_livraison }}</td>
+                    {% comment %} <td>
+                      <a href="{% url 'edit_pain' i.id_pain %}" class="btn btn-primary">modifier</a>
+                    </td> {% endcomment %}
+                    <td>
+                      <a href="{% url 'delete_commande' i.id %}" class="btn btn-primary">supprimer</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

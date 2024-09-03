@@ -1,0 +1,54 @@
+
+
+{% extends 'home.html' %}
+{% comment %}  HYOFANG LUY MARSHALL
+ DJOMATCHOUA WAMENI Ange Manuela
+ 
+ DJEUMO LEUNA Jemima {% endcomment %}
+{% block content %}
+
+    <div class="container-client">
+        <h2 class="alert alert-primary text-center m-3">Liste des Factures</h2>
+        <div class="corps mt-3">
+            <div class="mt-5">
+                <div class="col-md-3 pb-5">
+                  <select class="form-select" id="trie" aria-label="Sélectionnez une option">
+                      <option value="">Trier en fonction du mois</option>
+                     
+                        <option value="" >mois : </option>
+                      
+                  </select>
+                </div>
+              <table class="table table-bordered" id="approvisionnement_table" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer text-gray-600 fw-semibold">
+                <thead class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                  <tr>
+                    <th scope="col">N.</th>
+                    <th scope="col">MOIS</th>
+                    <th scope="col">CLIENTS</th>
+                    <th scope="col">MONTANT</th>
+                    <th scope="col">MONTANT TVA</th>
+                    <th scope="col">DELETE</th>
+                  </tr>
+                </thead>
+                commande_liste
+                <tbody>
+                    {% for i in commande_liste %}
+                        <tr>
+                        <td>{{ i.id }}</td>
+                        <td></td>
+                        <td>{{ i.client.nom_cli }}</td>
+                        <td>{{ i.pain.pain_id * i.pain.prix_pain_ht }}</td>
+                        <td></td>
+                        <td>
+                            <a href="" class="btn btn-primary">supprimer</a>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+    </div>
+
+{% endblock %}

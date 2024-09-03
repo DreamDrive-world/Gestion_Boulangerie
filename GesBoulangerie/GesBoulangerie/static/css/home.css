@@ -1,0 +1,39 @@
+
+body {
+  display: flex;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  background-color: #f1f1f1;
+  padding: 20px;
+  width: 200px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li a {
+  display: block;
+  color: #333;
+  text-decoration: none;
+  padding: 8px 16px;
+}
+
+.sidebar li a:hover {
+  background-color: #ddd;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}

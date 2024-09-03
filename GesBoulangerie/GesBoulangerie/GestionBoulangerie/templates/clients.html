@@ -1,0 +1,133 @@
+
+
+{% extends 'home.html' %}
+{% comment %}  HYOFANG LUY MARSHALL
+ DJOMATCHOUA WAMENI Ange Manuela
+ DJEUMO LEUNA Jemima {% endcomment %}
+
+{% block content %}
+  <div class="container-client">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active fs-8   fw-bold font-family-sans-serif text-uppercase" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">Creation clients</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fs-8  fw-bold font-family-sans-serif text-uppercase" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">Liste Clients</button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+        <h2 class="alert alert-warning text-center m-3">BIENVENUE SUR VOTRE APPLICATION GESBOULANGERIE</h2>
+        <div class="corps mt-3">
+          {% for message in messages %}
+            <p class="alert alert-success mt-3">{{ message }}</p>
+          {% endfor %}
+
+          {% if client %}
+            <form method="post" action="{% url 'update_client' client.id_cli %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="name" class="title">Nom</label>
+                    <input type="text" value="{{ client.nom_cli }}" id="name" name="name" class="form-control"  required />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="address" class="title">Adresse</label>
+                    <input type="text" value="{{ client.adr_cli }}" id="address" name="address" class="form-control"  required />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label for="ville" class="title">ville</label>
+                    <input type="text" value="{{ client.ville_cli }}" id="ville" name="ville" class="form-control"  required />
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">mise a jour</button>
+              </div>
+            </form>
+          {% else %}
+            <form method="post" action="{% url 'add_client' %}">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="name" class="title">Nom</label>
+                    <input type="text"  id="name" name="name" class="form-control" placeholder="Entrer le nom du client" required />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="mb-3">
+                    <label for="address" class="title">Adresse</label>
+                    <input type="address"  id="address" name="address" class="form-control" placeholder="Entrez avec le plus de precision votre adresse" required />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label for="ville" class="title">ville</label>
+                    <input type="ville"  id="ville" name="ville" class="form-control" placeholder="Entrez avec le nom de votre ville" required />
+                  </div>
+                </div>
+              </div>
+              {% comment %} <div class="row">
+                <div class="col">
+                  <div class="mb-4">
+                    <label for="description" class="title">Description</label>
+                    <textarea class="form-control" id="description" name="description" cols="50" rows="8" placeholder="Entrez une description de votre entreprise"></textarea>
+                  </div>
+                </div>
+              </div> {% endcomment %}
+
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary">Creer un client</button>
+              </div>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+      <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+        <div class="corps mt-3">
+          <div class="mt-5">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">N.</th>
+                  <th scope="col">NOM</th>
+                  <th scope="col">VILLE</th>
+                  <th scope="col">ADRESSE</th>
+                  <th scope="col">EDIT</th>
+                  <th scope="col">DELETE</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in Client_liste %}
+                  <tr>
+                    <td>{{ i.id_cli }}</td>
+                    <td>{{ i.nom_cli }}</td>
+                    <td>{{ i.ville_cli }}</td>
+                    <td>{{ i.adr_cli }}</td>
+                    <td>
+                      <a href="{% url 'edit_client' i.id_cli %}" class="btn btn-primary">modifier</a>
+                    </td>
+                    <td>
+                      <a href="{% url 'delete_client' i.id_cli %}" class="btn btn-primary">supprimer</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,103 @@
+
+
+
+{% extends 'home.html' %}
+
+{% comment %}  HYOFANG LUY MARSHALL
+ DJOMATCHOUA WAMENI Ange Manuela
+ DJEUMO LEUNA Jemima {% endcomment %}
+
+{% block content %}
+
+<div class="container-client">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active fs-8   fw-bold font-family-sans-serif text-uppercase" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">Creation Approvisionnement</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link fs-8  fw-bold font-family-sans-serif text-uppercase" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">Liste des Approvisionnements</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+              <div class="corps mt-3">
+                  {% for message in messages %}
+                    <p class="alert alert-success mt-3">{{ message }}</p>
+                  {% endfor %}
+                      <form method="post" action="{% url 'add_approvisionnement' %}">
+                            {% csrf_token %}
+                              <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-4">
+                                      <label for="melange" class="title">Sélectionnez le melange</label>
+                                      <select class="form-select" id="melange" name="melange" aria-label="Sélectionnez une option">
+                                          {% for i in melange_liste %}
+                                          <option value="{{ i.id_melange }}">{{ i.description }}</option>
+                                          {% endfor %}
+                                      </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                  <div class="mb-4">
+                                      <label for="date_livraison" class="title">Date de livraison</label>
+                                      <input type="date" id="date_livraison" name="date_livraison" class="form-control" required />
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                  <div class="col-6">
+                                      <div class="mb-4">
+                                      <label for="quantite" class="title">Quantite de Melange</label>
+                                      <input type="number" id="quantite" name="quantite" class="form-control" placeholder="Entrer la quantite exemple: 75 " required />
+                                      </div>
+                                  </div>
+                            </div>
+                            <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary">Creer un Approvisionnement</button>
+                            </div>
+                      </form>
+                </div>
+              </div>
+            <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+              <div class="corps mt-3">
+                <div class="mt-5">
+                    <div class="col-md-3 pb-5">
+                      <select class="form-select" id="trie" aria-label="Sélectionnez une option">
+                          <option value="">Trier en fonction de la semaine</option>
+                          {% for i in Approvisionnement_listeU %}
+                            <option value="{{ i.semaine_appro }}" >semaine : {{ i.semaine_appro }}</option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                  <table class="table table-bordered" id="approvisionnement_table" class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer text-gray-600 fw-semibold">
+                    <thead class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                      <tr>
+                        <th scope="col">N.</th>
+                        <th scope="col">SEMAINES</th>
+                        <th scope="col">MELANGES</th>
+                        <th scope="col">QUANTITES</th>
+                        <th scope="col">DELETE</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in Approvisionnement_liste %}
+                        <tr>
+                          <td>{{ i.id }}</td>
+                          <td>{{ i.semaine_appro }}</td>
+                          <td>{{ i.melange_id }}</td>
+                          <td>{{ i.quantite_melange }} Kg</td>
+                          <td>
+                            <a href="{% url 'delete_approvisionnement' i.id %}" class="btn btn-primary">supprimer</a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+
+{% endblock %}
